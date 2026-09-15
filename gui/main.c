@@ -179,7 +179,7 @@ int main(int argc, char argv[]) {
         readKeyboard();
         system("cls"); // Clears terminal
         printBoard();
-    } while(gameEnded == false);
+    } while(!gameEnded);
 
     printf("GAME ENDED!!\nSCORE -> %d", score);
     return 0;
