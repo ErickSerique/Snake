@@ -152,12 +152,9 @@ void moveSnake() {
     if((newHead.posX < 0 || newHead.posX >= ROWS) || (newHead.posY < 0 || newHead.posY >= COLS)) {
         kill();
     }
-    // If snake hits itself kill()
-    else if(isSnakeAt(newHead.posX, newHead.posY)) {
-        // If the new position is the snake's tail, don't kill the player
-        if(newHead.posX != snake.body[snake.size - 1].posX || newHead.posY != snake.body[snake.size - 1].posY) {
-            kill();
-        }
+    // If snake hits itself(body, not tail) kill()
+    else if(isSnakeAt(newHead.posX, newHead.posY) && (newHead.posX != snake.body[snake.size - 1].posX || newHead.posY != snake.body[snake.size - 1].posY)) {
+        kill();
     }
     else {
         // If player gets a fruit
@@ -202,7 +199,6 @@ void readKeyboard() {
                 if(snake.direction != RIGHT) {
                     snake.direction = LEFT;
                 }
-                snake.direction = LEFT;
                 break;
             case DOWN:
                 if(snake.direction != UP) {
@@ -239,10 +235,9 @@ int main() {
         if((currentTime.QuadPart - lastMove.QuadPart) * 1000 / frequency.QuadPart >= waitingTime) {
             moveSnake();
             lastMove = currentTime;
+            system("cls"); // Clears terminal
+            printBoard();
         }
-
-        system("cls"); // Clears terminal
-        printBoard();
     } while(!gameEnded);
 
     printf("GAME ENDED!!\nSCORE -> %d", score);
